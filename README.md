@@ -11,13 +11,15 @@ The name is a goal and makes no claim. Nothing here is a unified theory yet.
 | Question | Evidence so far | Status |
 |---|---|---|
 | Are the four scale scores reliable? | Retest correlations of about .80 to .87, with Thinking-Feeling the weakest | Fairly well supported, but many of the figures come from the publisher |
-| Do people fall into two natural groups on each scale? | Taxometric work and score distributions point to continuous traits | Evidence leans against types |
+| Do people fall into two natural groups on each scale? | Taxometric work, score distributions and [our H1 run](#second-result-pure-types-dont-fit-mixed-ones-might) point to continuous traits | Evidence leans against strong types. Weak ones not ruled out |
 | Why do so many people change type on retest? | [Our calculation](#first-result-type-changes-need-no-special-explanation): reliability plus a midpoint cut predicts about 53-59% | Model result, needs real retest data |
 | What do the scales measure? | They overlap four of the Big Five. None tracks Neuroticism | Replicated |
 | Does type predict job or team outcomes? | We found no MBTI-specific meta-analysis | Open. The publisher itself rules out hiring use |
 | Does the cognitive function stack hold up? | The direct tests we could locate argue against it, and we have only seen them second-hand | Barely tested |
 
-Read this before relying on any of it: **this is a first pass made with AI agents.** Most journal articles were paywalled, so many claims rest on abstracts, search summaries or Wikipedia. Each source is marked with how much of it was read. Every DOI was looked up on Crossref and resolves to the expected paper, which shows the paper exists but does not show the claim about it is right. Checking the claims against the full papers is the most useful thing you can contribute.
+Read this before relying on any of it: **this is a first pass made with AI agents.** Most journal articles were paywalled, so many claims rest on abstracts, search summaries or Wikipedia. Each source is marked with how much of it was read. Every DOI was looked up on Crossref and resolves to the expected paper, which shows the paper exists but does not show the claim about it is right.
+
+A [follow-up audit](research/05-claim-audit.md) tried to reach legal full texts for the ten most important claims. It found no errors, but it could read only one paper in full. The retest figures that our first result compares against (Pittenger, Harvey) could not be checked at all, and neither could the Big Five correlations or the "1 of 540" function stack figure. If you have library access, checking those papers is the most useful thing you can contribute.
 
 ## First result: type changes need no special explanation
 
@@ -33,11 +35,24 @@ Reported retest studies, as relayed by secondary sources, give about 83% per let
 
 This cuts both ways. Flips are not evidence of an unusually noisy test, since scale scores this reliable produce them when cut at the middle. They also mean the four-letter label is much less stable than the scores behind it, which is a reason to report scores and drop the label.
 
-Limits: the model assumes normal, independent scales cut at the median, and the comparison figures are second-hand. It shows the numbers are consistent with continuous traits, and does not rule out real categories measured with noise. To reproduce it, run `python analysis/h2_type_stability.py`.
+Limits: the model assumes normal scales cut at the median, and the comparison figures are second-hand. To reproduce it, run `python analysis/h2_type_stability.py`.
+
+## Second result: pure types don't fit, mixed ones might
+
+We simulated what retest and score shape would look like if categories were real, holding the retest correlation at .835. These are simulated people, so this checks what the reported figures can and cannot rule out and adds no new evidence about real people.
+
+| Share of stable variance from a two-group category | Keeps each letter | Changes type | Score distribution |
+|---|---|---|---|
+| 0 (fully continuous) | 81.6% | 55.7% | One hump |
+| 0.6 | 84.8% | 48.3% | One hump |
+| 0.8 | 88.8% | 38.0% | Two humps |
+| 1 (pure types) | 97.6% | 9.1% | Two humps |
+
+Pure types with this reliability would keep nearly everyone's type, which is far from the roughly 50% change reported. We also ran [H1](HYPOTHESES.md#h1-the-traits-behind-the-scales-are-continuous-not-two-peaked) on 19,718 real people: all five Big Five traits have one hump. Together these count against strong categories, on the Big Five traits that overlap with the scales. They cannot rule out a weak category hidden in the middle of a continuous trait, and the real MBTI scales have yet to be tested this way. To reproduce it, run `python analysis/simulate_methods.py`.
 
 ## What's here
 
-- [research/](research/) has four literature reviews, with every claim graded:
+- [research/](research/) has four literature reviews with every claim graded, plus a [claim audit](research/05-claim-audit.md):
   - [01 Psychometrics](research/01-psychometrics.md)
   - [02 Validity](research/02-validity.md)
   - [03 Functions and theory](research/03-functions-and-theory.md)
@@ -56,6 +71,10 @@ python analysis/h2_type_stability.py
 
 ```bash
 python analysis/h1_bimodality.py --self-check
+```
+
+```bash
+python analysis/simulate_methods.py
 ```
 
 ```bash

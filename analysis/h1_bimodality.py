@@ -75,7 +75,7 @@ def score(rows):
         keyed = []
         for row in rows:
             answers = [row[c] for c in cols]
-            if all(a in "12345" and a for a in answers):
+            if all(a in {"1", "2", "3", "4", "5"} for a in answers):
                 keyed.append([int(a) if k > 0 else 6 - int(a) for a, k in zip(answers, key)])
         scores[trait] = [sum(k) for k in keyed]
         # A wrong key shows up as a negative correlation with the rest of the scale.
